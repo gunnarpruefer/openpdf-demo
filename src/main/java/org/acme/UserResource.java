@@ -1,6 +1,7 @@
 package org.acme;
 
 import com.lowagie.text.Document;
+import com.lowagie.text.Image;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 import jakarta.inject.Inject;
@@ -42,6 +43,9 @@ public class UserResource {
                     Document doc = new Document();
                     PdfWriter.getInstance(doc, output);
                     doc.open();
+                    Image logo = Image.getInstance(getClass().getResource("/logo.png"));
+                    logo.scaleToFit(100, 100);
+                    doc.add(logo);
                     doc.add(new Paragraph("User: " + user.firstName + " " + user.lastName));
                     doc.close();
                 }).header("Content-Disposition", "inline; filename=\"user-" + id + ".pdf\"")
